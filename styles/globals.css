@@ -2,3 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.navbarItem {
+  position: relative;
+}
+
+.navbarUnderline {
+  display: none;
+  position: absolute;
+  bottom: -4px;
+  left: 15%;
+  width: 70%;
+  height: 2px;
+  background-color: #ffffff;
+}
+
+.navbarItem:hover > .navbarUnderline {
+  display: block;
+}
+
