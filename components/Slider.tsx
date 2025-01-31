@@ -5,9 +5,18 @@ import SliderDots from "./SliderDots";
 import { useState } from "react";
 
 const images = [
-  "/images/desktop-image-hero-1.jpg",
-  "/images/desktop-image-hero-2.jpg",
-  "/images/desktop-image-hero-3.jpg",
+  {
+    desktop: "/images/desktop-image-hero-1.jpg",
+    mobile: "/images/mobile-image-hero-1.jpg",
+  },
+  {
+    desktop: "/images/desktop-image-hero-2.jpg",
+    mobile: "/images/mobile-image-hero-2.jpg",
+  },
+  {
+    desktop: "/images/desktop-image-hero-3.jpg",
+    mobile: "/images/mobile-image-hero-3.jpg",
+  },
 ];
 
 const content = [
@@ -32,15 +41,16 @@ export default function Slider() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="flex w-full h-[70%]">
+    <div className="flex flex-col md:flex-row w-full h-fit md:h-[70%] gap-y-12">
       {/* Image Slider */}
-      <div className="flex flex-col w-3/5 h-full relative">
-        <div className="flex w-full h-full overflow-x-hidden snap-x snap-mandatory scroll-smooth">
+      <div className="flex flex-col w-full md:w-3/5 h-full relative">
+        {/* Desktop Images */}
+        <div className="hidden md:flex w-full h-full overflow-x-hidden snap-x snap-mandatory scroll-smooth">
           {images.map((image, index) => (
             <Image
               key={index}
-              src={image}
-              id={index.toString()}
+              src={image.desktop}
+              id={`${index}-desktop`}
               alt={"hero"}
               width={1000}
               height={1000}
@@ -49,19 +59,43 @@ export default function Slider() {
           ))}
         </div>
 
-        <div className="flex items-center absolute p-12 gap-x-12">
-          <h1 className="text-[32px] text-white">room</h1>
-          <Navbar />
+        {/* Mobile Images */}
+        <div className="flex md:hidden w-full h-[456px] overflow-x-hidden snap-x snap-mandatory scroll-smooth">
+          {images.map((image, index) => (
+            <Image
+              key={index}
+              src={image.mobile}
+              id={`${index}-mobile`}
+              alt={"hero"}
+              width={1000}
+              height={1000}
+              className="object-cover w-full h-full snap-center"
+            />
+          ))}
         </div>
+
+        <div className="flex flex-row md:flex-row-reverse w-full justify-between md:justify-end items-center absolute p-8 md:p-12 gap-x-12">
+          <Navbar />
+          <h1 className="text-[32px] self-center text-white">room</h1>
+          <div className="flex" />
+        </div>
+
+        <SliderDots
+          className="absolute block md:hidden bottom-0 right-0"
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+          size={64}
+          type="mobile"
+        />
       </div>
 
       {/* Text Slider */}
-      <div className="flex flex-col w-2/5 px-20 h-full justify-center relative">
+      <div className="flex flex-col w-full md:w-2/5 px-8 md:px-20 h-full justify-center relative">
         {/* Content */}
         <div className="flex flex-col w-full gap-y-6">
           {/* Dynamic content */}
           <div className="flex flex-col gap-y-6">
-            <h1 className="text-[48px] font-[700] leading-[1.2]">
+            <h1 className="text-[40px] md:text-[48px] font-[700] leading-[1.2]">
               {content[activeIndex].title}
             </h1>
             <p className="text-darkGray">{content[activeIndex].description}</p>
@@ -75,9 +109,11 @@ export default function Slider() {
 
         {/* Dots */}
         <SliderDots
-          className={"absolute bottom-0 left-0"}
+          className={"absolute hidden md:block bottom-0 left-0"}
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
+          size={96}
+          type="desktop"
         />
       </div>
     </div>

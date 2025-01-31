@@ -1,16 +1,19 @@
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useState } from "react";
 import Link from "next/link";
 
 interface SliderDotsProps {
   className: string;
   activeIndex: number;
   setActiveIndex: (index: number) => void;
+  size: number;
+  type: string;
 }
 export default function SliderDots({
   className,
   activeIndex,
   setActiveIndex,
+  size,
+  type,
 }: SliderDotsProps) {
   const handleForward = () => {
     if (activeIndex === 2) {
@@ -32,15 +35,17 @@ export default function SliderDots({
     <div className={className}>
       <div className="flex">
         <Link
-          className="flex w-24 h-24 items-center justify-center bg-black hover:bg-veryDarkGray"
-          href={`#${activeIndex - 1 < 0 ? 2 : activeIndex - 1}`}
+          className="flex items-center justify-center bg-black hover:bg-veryDarkGray"
+          style={{ width: `${size}px`, height: `${size}px` }}
+          href={`#${activeIndex - 1 < 0 ? 2 : activeIndex - 1}-${type}`}
           onClick={handleBack}
         >
           <IoIosArrowBack className="text-darkGray mx-auto text-[40px]" />
         </Link>
         <Link
-          className="flex w-24 h-24 items-center justify-center bg-black hover:bg-veryDarkGray"
-          href={`#${activeIndex + 1 > 2 ? 0 : activeIndex + 1}`}
+          className="flex items-center justify-center bg-black hover:bg-veryDarkGray"
+          style={{ width: `${size}px`, height: `${size}px` }}
+          href={`#${activeIndex + 1 > 2 ? 0 : activeIndex + 1}-${type}`}
           onClick={handleForward}
         >
           <IoIosArrowForward className="text-darkGray mx-auto text-[40px]" />
